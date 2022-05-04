@@ -67,4 +67,4 @@ Caching is implemented by the Pongo2 library itself.
 GoDoc
 -----
 
-https://godoc.org/magnax.ca/pongo2gin/v5
+https://pkg.go.dev/magnax.ca/pongo2gin/v5
