@@ -40,9 +40,22 @@ func (p Pongo2) Instance(name string, data interface{}) render.Render {
 		template = pongo2.Must(p.set.FromCache(path))
 	}
 
+	var d pongo2.Context
+
+	if d2, ok := data.(pongo2.Context); ok {
+		d = d2
+	} else if d2, ok := data.(gin.H); ok {
+		d = make(pongo2.Context, len(d2))
+		for k, v := range d2 {
+			d[k] = v
+		}
+	} else {
+		panic("'data' must be either a pongo2.Context or a gin.H")
+	}
+
 	return &Render{
 		tpl:  template,
-		data: data.(pongo2.Context),
+		data: d,
 	}
 }
 
