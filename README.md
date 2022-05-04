@@ -1,12 +1,10 @@
 Pongo2gin
 =========
 
-Package pongo2gin is a template renderer that can be used with the Gin web
-framework https://github.com/gin-gonic/gin it uses the Pongo2 template library
-https://github.com/flosch/pongo2
+Pongo2gin is an adapter that allows [pongo2 (v5)](https://github.com/flosch/pongo2) to be used with the
+[Gin web framework](https://github.com/gin-gonic/gin).
 
-This simple binding library is based on a similar library built for using
-Handlebars templates with Gin: https://gitlab.com/go-box/ginraymond.
+
 
 Requirements
 ------------
@@ -30,49 +28,38 @@ Basic Example
 -------------
 
 ```go
+package main
+
 import (
-    "github.com/gin-gonic/gin"
-    "github.com/flosch/pongo2"
-    "gitlab.com/go-box/pongo2gin"
+	"github.com/flosch/pongo2/v5"
+	"github.com/gin-gonic/gin"
+	"magnax.ca/pongo2gin/v5"
 )
 
 func main() {
-    router := gin.Default()
+	router := gin.Default()
 
-    // Use pongo2gin.Default() for default options or pongo2gin.New()
-    // if you need to use custom RenderOptions.
-    router.HTMLRender = pongo2gin.Default()
+	// Use pongo2gin.Default() for default options or pongo2gin.New()
+	// if you need to use custom RenderOptions.
+	router.HTMLRender = pongo2gin.Default()
 
-    router.GET("/", func(c *gin.Context) {
-        // Use pongo2.Context instead of gin.H
-        c.HTML(200, "hello.html", pongo2.Context{"name": "world"})
-    })
+	router.GET("/", func(c *gin.Context) {
+		// Use pongo2.Context instead of gin.H
+		c.HTML(200, "hello.html", pongo2.Context{"name": "world"})
+	})
 
-    router.Run(":8080")
-}
-```
-
-RenderOptions
--------------
-
-When calling pongo2gin.New() instead of pongo2gin.Default() you can use these
-custom RenderOptions:
-
-```go
-type RenderOptions struct {
-    TemplateDir string  // location of the template directory
-    ContentType string  // Content-Type header used when calling c.HTML()
+	router.Run(":8080")
 }
 ```
 
 Template Caching
 ----------------
 
-Templates will be cached if the current Gin Mode is set to anything but "debug",
+Templates will be cached if the current Gin Mode is set to anything but "debug" (`gin.DebugMode`),
 this means the first time a template is used it will still load from disk, but
 after that the cached template will be used from memory instead.
 
-If he Gin Mode is set to "debug" then templates will be loaded from disk on
+If the Gin Mode is set to "debug" then templates will be loaded from disk on
 each request.
 
 Caching is implemented by the Pongo2 library itself.
@@ -80,4 +67,4 @@ Caching is implemented by the Pongo2 library itself.
 GoDoc
 -----
 
-https://godoc.org/gitlab.com/go-box/pongo2gin
+https://godoc.org/magnax.ca/pongo2gin/v5
